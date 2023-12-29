@@ -30,6 +30,10 @@ name: Build
     branches:
       - master
 
+defaults:
+  run:
+    working-directory: "geoffreyvanwyk.moodle_uninstall"
+
 jobs:
   yamllint:
     name: YAML Lint
@@ -58,6 +62,8 @@ jobs:
     steps:
       - name: Check out the codebase.
         uses: actions/checkout@v2
+        with:
+          path: "geoffreyvanwyk.moodle_uninstall"
 
       - name: Set up Python 3.
         uses: actions/setup-python@v2
