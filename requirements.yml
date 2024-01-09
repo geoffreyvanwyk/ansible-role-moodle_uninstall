@@ -23,6 +23,7 @@
 
 roles:
   - name: geoffreyvanwyk.moodle
+  - name: geoffreyvanwyk.php
 
 collections:
   - name: community.postgresql
