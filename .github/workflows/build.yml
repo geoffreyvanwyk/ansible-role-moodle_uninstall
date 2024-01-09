@@ -80,7 +80,13 @@ jobs:
         molecule-scenario:
           - default
         ubuntu-version:
+          - ubuntu2004
           - ubuntu2204
+        moodle-version:
+          - MOODLE_39_STABLE
+          - MOODLE_400_STABLE
+          - MOODLE_401_STABLE
+          - MOODLE_402_STABLE
 
     steps:
       - name: Check out the codebase
@@ -100,3 +106,4 @@ jobs:
           PY_COLORS: "1"
           ANSIBLE_FORCE_COLOR: "1"
           MOLECULE_DISTRO: ${{ matrix.ubuntu-version }}
+          MOLECULE_MOODLE_VERSION: ${{ matrix.moodle-version }}
