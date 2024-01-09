@@ -21,4 +21,8 @@
 # @copyright  2023 Geoffrey Bernardo van Wyk (https://geoffreyvanwyk.dev)
 ##
 
-- name: geoffreyvanwyk.moodle
+roles:
+  - name: geoffreyvanwyk.moodle
+
+collections:
+  - name: community.postgresql
