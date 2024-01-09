@@ -20,3 +20,39 @@
 #
 # @copyright  2023 Geoffrey Bernardo van Wyk (https://geoffreyvanwyk.dev)
 ##
+
+- name: Remove cron job
+  ansible.builtin.cron:
+    name: "{{ 'Moodle scheduled tasks for ' + moodle_instance }}"
+    state: absent
+
+- name: Drop database
+  become: true
+  become_user: postgres
+  community.postgresql.postgresql_db:
+    name: "{{ moodle_cfg_dbname }}"
+    state: absent
+
+- name: Remove enabled Apache configuration
+  become: true
+  ansible.builtin.file:
+    path: /etc/apache2/conf-enabled/{{ moodle_web_apache_conf }}
+    state: absent
+  notify: Restart Apache web service
+
+- name: Remove available Apache configuration
+  become: true
+  ansible.builtin.file:
+    path: /etc/apache2/conf-available/{{ moodle_web_apache_conf }}
+    state: absent
+
+- name: Remove Moodle source code
+  ansible.builtin.file:
+    path: "{{ moodle_deploy_destination }}"
+    state: absent
+
+- name: Remove moodledata
+  become: true
+  ansible.builtin.file:
+    path: "{{ moodle_cfg_dataroot }}"
+    state: absent

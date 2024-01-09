@@ -21,8 +21,8 @@
 # @copyright  2023 Geoffrey Bernardo van Wyk (https://geoffreyvanwyk.dev)
 ##
 
-moodle_deploy_destination: /var/www/html/moodle
-moodle_cfg_dataroot: /var/www/moodledata-127.0.0.1-moodle
-moodle_cfg_dbtype: pgsql
 moodle_cfg_dbname: moodle
-moodle_web_apache_conf: moodle_127.0.0.1-moodle.conf
+moodle_cfg_dbtype: pgsql
+moodle_deploy_destination: /var/www/html/moodle
+moodle_web_domain: 127.0.0.1
+moodle_web_path: moodle
