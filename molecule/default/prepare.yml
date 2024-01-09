@@ -16,27 +16,24 @@
 # <https://www.gnu.org/licenses/>.
 
 ##
-#  The central configuration entrypoint for Molecule.
+# Prepares the server before calling the role that is being tested.
 #
 # @copyright  2023 Geoffrey Bernardo van Wyk (https://geoffreyvanwyk.dev)
-# @link       https://tinyurl.com/molecule-scenario-layout
 ##
 
-dependency:
-  name: galaxy
-driver:
-  name: docker
-platforms:
-  - name: ansible_role_moodle_uninstall_${MOLECULE_DISTRO:-ubuntu2204}
-    image: "geoffreyvanwyk/docker-${MOLECULE_DISTRO:-ubuntu2004}-ansible:latest"
-    pre_build_image: true
-    published_ports:
-      - "0.0.0.0:80:80"
-provisioner:
-  name: ansible
-  inventory:
-    host_vars:
-      ansible_role_moodle_uninstall_${MOLECULE_DISTRO:-ubuntu2204}:
-        ansible_user: ubuntu
-verifier:
-  name: ansible
+- name: Prepare
+  hosts: all
+
+  tasks:
+    - name: Update APT package cache
+      # Sometimes the package list on the server does not contain all the
+      # available packages. A fresh list has to be downloaded from the Ubuntu
+      # package repositories.
+      become: true
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: "{{ 60 * 60 * 24 }}" # seconds => 24 hours
+
+    - name: Install Moodle
+      ansible.builtin.include_role:
+        name: geoffreyvanwyk.moodle
