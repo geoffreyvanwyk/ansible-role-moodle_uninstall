@@ -76,7 +76,6 @@ jobs:
     runs-on: ubuntu-22.04
 
     strategy:
-      max-parallel: 4
       matrix:
         molecule-scenario:
           - default
