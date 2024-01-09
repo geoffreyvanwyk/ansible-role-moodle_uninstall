@@ -28,6 +28,7 @@
 
   vars_files:
     - vars/main.yml
+    - ../../vars/main.yml
 
   tasks:
     - name: Collect list of cron jobs
