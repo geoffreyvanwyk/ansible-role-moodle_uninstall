@@ -46,11 +46,12 @@
       community.postgresql.postgresql_info:
         filter:
           - "databases"
-      register: moodle_uninstall_databases
+      register: moodle_uninstall_db
 
     - name: Assert that database does not exist
       ansible.builtin.assert:
-        that: "{{ moodle_cfg_dbname not in moodle_uninstall_databases.databases.keys() }}"
+        that: "{{
+          moodle_cfg_dbname not in moodle_uninstall_db.databases.keys() }}"
 
     - name: Obtain status enabled Apache configuration
       ansible.builtin.stat:
