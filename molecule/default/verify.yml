@@ -25,7 +25,64 @@
 - name: Verify
   hosts: all
   gather_facts: false
+
+  vars_files:
+    - vars/main.yml
+
   tasks:
-    - name: Example assertion
+    - name: Collect list of cron jobs
+      ansible.builtin.command: crontab -l
+      changed_when: false
+      register: moodle_uninstall_cron_jobs
+
+    - name: Assert that cron job does not exist
+      loop: "{{ moodle_uninstall_cron_jobs.stdout_lines }}"
       ansible.builtin.assert:
-        that: true
+        that: "{{ item is not search(moodle_deploy_destination) }}"
+
+    - name: Collect list of databases
+      become: true
+      become_user: postgres
+      community.postgresql.postgresql_info:
+        filter:
+          - "databases"
+      register: moodle_uninstall_databases
+
+    - name: Assert that database does not exist
+      ansible.builtin.assert:
+        that: "{{ moodle_cfg_dbname not in moodle_uninstall_databases.databases.keys() }}"
+
+    - name: Obtain status enabled Apache configuration
+      ansible.builtin.stat:
+        path: /etc/apache2/conf-enabled/{{ moodle_web_apache_conf }}
+      register: moodle_uninstall_stat_enabled_apache_conf
+
+    - name: Assert that enabled Apache configuration does not exist
+      ansible.builtin.assert:
+        that: not moodle_uninstall_stat_enabled_apache_conf.stat.exists
+
+    - name: Obtain status available Apache configuration
+      ansible.builtin.stat:
+        path: /etc/apache2/conf-available/{{ moodle_web_apache_conf }}
+      register: moodle_uninstall_stat_available_apache_conf
+
+    - name: Assert that available Apache configuration does not exist
+      ansible.builtin.assert:
+        that: not moodle_uninstall_stat_available_apache_conf.stat.exists
+    - name: Obtain status of Moodle source code directory
+      ansible.builtin.stat:
+        path: "{{ moodle_deploy_destination }}"
+      register: moodle_uninstall_stat_deploy_destination
+
+    - name: Assert that Moodle source code directory does not exist
+      ansible.builtin.assert:
+        that: not moodle_uninstall_stat_deploy_destination.stat.exists
+
+    - name: Obtain status of moodledata directory
+      ansible.builtin.stat:
+        path: "{{ moodle_cfg_dataroot }}"
+      register: moodle_uninstall_stat_moodledata
+
+    - name: Assert that Moodledata directory does not exist
+      ansible.builtin.assert:
+        that: not moodle_uninstall_stat_moodledata.stat.exists
