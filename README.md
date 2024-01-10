@@ -1,6 +1,6 @@
 # Ansible Role for Uninstalling Moodle
 
-[![build](https://github.com/geoffreyvanwyk/ansible-role-moodle_uninstall/workflows/Build/badge.svg?event=push)](https://github.com/geoffreyvanwyk/ansible-role-moodle_uninstall/actions?query=workflow%3ABuild)
+![build](https://github.com/geoffreyvanwyk/ansible-role-moodle_uninstall/workflows/Build/badge.svg?event=push)
 
 Uninstalls a Moodle instance by:
 
