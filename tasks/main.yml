@@ -32,6 +32,7 @@
   community.postgresql.postgresql_db:
     name: "{{ moodle_cfg_dbname }}"
     state: absent
+    force: true
 
 - name: Remove enabled Apache configuration
   become: true
