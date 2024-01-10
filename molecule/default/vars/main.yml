@@ -22,7 +22,6 @@
 ##
 
 moodle_cfg_dbname: moodle
-moodle_cfg_dbtype: pgsql
 moodle_deploy_destination: /var/www/html/moodle
 moodle_web_domain: 127.0.0.1
 moodle_web_path: moodle

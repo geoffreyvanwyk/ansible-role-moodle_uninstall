@@ -21,3 +21,5 @@
 # @copyright  2023 Geoffrey Bernardo van Wyk (https://geoffreyvanwyk.dev)
 # @link       https://tinyurl.com/ansible-variable-precedence
 ##
+
+moodle_cfg_dbtype: pgsql

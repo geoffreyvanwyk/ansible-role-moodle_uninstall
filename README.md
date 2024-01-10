@@ -1,8 +1,10 @@
 # Ansible Role for Uninstalling Moodle
 
-[![build](https://github.com/geoffreyvanwyk/ansible-role-moodle_uninstall/workflows/Build/badge.svg?event=push)](https://github.com/geoffreyvanwyk/ansible-role-moodle_uninstall/actions?query=workflow%3ABuild)
+![build](https://github.com/geoffreyvanwyk/ansible-role-moodle_uninstall/workflows/Build/badge.svg?event=push)
 
-Uninstalls a Moodle instance by:
+Uninstalls a Moodle instance that was installed by 
+[Ansible Role for Moodle](https://github.com/geoffreyvanwyk/ansible-role-moodle)
+by:
 
 * removing included Apache web server configuration,
 * removing cron job,
@@ -16,13 +18,10 @@ Uninstalls a Moodle instance by:
 > should be mentioned here. For instance, if the role uses the EC2 module, it may
 > be a good idea to mention in this section that the boto package is required.
 
-The role only uninstalls a Moodle instance served from a subdirectory, and works best when the Moodle instance was installed with [Ansible role for Moodle](https://github.com/geoffreyvanwyk/ansible-role-moodle).
+The role only uninstalls a Moodle instance served from a subdirectory.
 
-The role is only tested on long-term support versions of Ubuntu that still receive standard support.
-
-At the moment, the role only uses Apache web server which it installs itself.
-
-The role only supports removing the included Apache web configuration as for a Moodle instance installed in a subdirectory; not the removal of a virtual host configuration.
+The role is only tested on long-term support versions of Ubuntu that still
+receive standard support.
 
 The role only supports PostgreSQL database.
 
@@ -33,6 +32,22 @@ The role only supports PostgreSQL database.
 > variables that can/should be set via parameters to the role. Any variables that
 > are read from other roles and/or the global scope (ie. hostvars, group vars,
 > etc.) should be mentioned here as well.
+
+None of the variables, except `moodle_cfg_dbtype` has a default value. A value
+must be provided for each variable listed here.
+
+### Web
+
+```yaml
+moodle_web_domain: ""
+moodle_web_path: "
+```
+
+These two variables are used to calculate `moodle_instance` which uniquely
+identifies the Moodle instance. That identity is used in the names of other
+files, directories and other objects that belong to the instance.
+
+---
 
 ### Delete Source Code
 
@@ -58,7 +73,7 @@ The `postgres` user is used to drop the database.
 ### Remove Apache configuration
 
 ```yaml
-moodle_web_apache_conf: "" # Name of included Apache configuraion file.
+moodle_web_apache_conf: ""  # Calculated from `moodle_instance`.
 ```
 
 The name of included Apache configuration file.
@@ -68,7 +83,7 @@ The name of included Apache configuration file.
 ### Installation & Server-Side configuration
 
 ```yaml
-moodle_cfg_dataroot: ""
+moodle_cfg_dataroot: ""  # Calculated from `moodle_instance`.
 ```
 
 The path to the moodledata directory.
@@ -79,7 +94,8 @@ The path to the moodledata directory.
 > regards to parameters that may need to be set for other roles, or variables that
 > are used from other roles.
 
-The list of roles on which this role depends can be found in `requirements.yml` .
+The list of roles and collections on which this role depends can be found in
+`requirements.yml` .
 
 ## Example Playbook
 
@@ -91,6 +107,7 @@ The list of roles on which this role depends can be found in `requirements.yml` 
   roles:
     - role: geoffreyvanwyk.moodle_uninstall
       moodle_web_domain: www.example.com
+      moodle_web_path: moodle
 ```
 
 ## License
