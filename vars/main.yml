@@ -21,3 +21,9 @@
 # @copyright  2023 Geoffrey Bernardo van Wyk (https://geoffreyvanwyk.dev)
 # @link       https://tinyurl.com/ansible-variable-precedence
 ##
+
+moodle_instance: "{{
+  moodle_web_domain + ('' if moodle_web_path == '' else '-' + moodle_web_path)
+  }}"
+moodle_cfg_dataroot: "{{ '/var/www/moodledata-' + moodle_instance }}"
+moodle_web_apache_conf: "{{ 'moodle_' + moodle_instance + '.conf' }}"

@@ -23,7 +23,11 @@
 
 - name: Converge
   hosts: all
+
+  vars_files:
+    - vars/main.yml
+
   tasks:
-    - name: "Include geoffreyvanwyk.moodle_uninstall"
+    - name: Uninstall Moodle
       ansible.builtin.include_role:
-        name: "geoffreyvanwyk.moodle_uninstall"
+        name: geoffreyvanwyk.moodle_uninstall

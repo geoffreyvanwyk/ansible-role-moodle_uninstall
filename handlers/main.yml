@@ -21,3 +21,9 @@
 # @copyright  2023 Geoffrey Bernardo van Wyk (https://geoffreyvanwyk.dev)
 # @link       https://tinyurl.com/ansible-handlers
 ##
+
+- name: Restart Apache web service
+  become: true
+  ansible.builtin.sysvinit:
+    name: apache2
+    state: restarted

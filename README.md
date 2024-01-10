@@ -24,6 +24,8 @@ At the moment, the role only uses Apache web server which it installs itself.
 
 The role only supports removing the included Apache web configuration as for a Moodle instance installed in a subdirectory; not the removal of a virtual host configuration.
 
+The role only supports PostgreSQL database.
+
 ## Role Variables
 
 > A description of the settable variables for this role should go here,
@@ -32,53 +34,44 @@ The role only supports removing the included Apache web configuration as for a M
 > are read from other roles and/or the global scope (ie. hostvars, group vars,
 > etc.) should be mentioned here as well.
 
-### Deployment of Source Code
+### Delete Source Code
 
 ```yaml
-moodle_deploy_destination: /var/www/html/moodle
+moodle_deploy_destination: ""
 ```
 
 The path to the Moodle source code.
 
 ---
 
-### Set-Up of Database
+### Drop Database
 
 ```yaml
-moodle_cfg_dbtype: pgsql    # Which database service is used: pgsql or maridb.
-moodle_cfg_dbname: moodle   # The name of the database.
-moodle_cfg_dbuser:          # Username.
-moodle_cfg_dbpass:          # Password.
+moodle_cfg_dbtype: pgsql
+moodle_cfg_dbname: ""
 ```
 
-The database user provided must have permission to drop the database. If no username and password are given, for PostgreSQL, the `postgres` user will be used; for MariaDB, the socket will be used, if possible.
+The `postgres` user is used to drop the database.
 
 ---
 
-### Web Hosting
+### Remove Apache configuration
 
 ```yaml
-moodle_web_domain: 127.0.0.1          # Domain name of the web service virtual host.
-moodle_web_path: moodle               # Subdirectory relative to virtual host.
+moodle_web_apache_conf: "" # Name of included Apache configuraion file.
 ```
 
-As with the Ansible role for Moodle, These two variables are used to calculate the `moodle_instance` variable that uniquely identifies the Moodle instance. The `moodle_instance` variable is used to:
-
-* locate the moodledata directory, unless that path is explicitly given;
-* locate the included Apache configuration file;
-* identify the cronjob that needs to be removed.
-
-If the `moodle_web_path` is not given, it is calculated from the basename `moodle_deploy_destination`.
+The name of included Apache configuration file.
 
 ---
 
 ### Installation & Server-Side configuration
 
 ```yaml
-moodle_cfg_dataroot: /var/www/moodledata
+moodle_cfg_dataroot: ""
 ```
 
-The path to the moodledata directory. If not given, it is calculated from the `moodle_instance` variable.
+The path to the moodledata directory.
 
 ## Dependencies
 
