@@ -71,6 +71,7 @@
     - name: Assert that available Apache configuration does not exist
       ansible.builtin.assert:
         that: not moodle_uninstall_stat_available_apache_conf.stat.exists
+
     - name: Obtain status of Moodle source code directory
       ansible.builtin.stat:
         path: "{{ moodle_deploy_destination }}"
