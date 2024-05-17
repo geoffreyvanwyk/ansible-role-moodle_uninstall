@@ -24,7 +24,7 @@
 ##
 
 name: Build
-on:  # yamllint disable-line rule:truthy
+on: # yamllint disable-line rule:truthy
   pull_request: {}
   push:
     branches:
@@ -83,10 +83,10 @@ jobs:
           - ubuntu2004
           - ubuntu2204
         moodle-version:
-          - MOODLE_39_STABLE
           - MOODLE_400_STABLE
           - MOODLE_401_STABLE
           - MOODLE_402_STABLE
+          - MOODLE_403_STABLE
 
     steps:
       - name: Check out the codebase
